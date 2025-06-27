@@ -1,26 +1,10 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { GoogleLogin } from '@react-oauth/google'
-import { jwtDecode } from 'jwt-decode'
+import LoginForm from "@/app/components/LoginForm";
 
 export default function Nav() {
-    const [user, setUser] = useState(null)
-
-    const handleSuccess = (credentialResponse: { credential: string }) => {
-        if (credentialResponse && credentialResponse.credential) {
-            const decoded = jwtDecode(credentialResponse.credential)
-            setUser({ name: decoded.name, picture: decoded.picture })
-        } else {
-            console.log('No credential received.')
-        }
-    }
-
     return (
         <nav className="flex w-full justify-between items-center h-20 bg-black px-8">
-            {/* Header/Logo Section */}
             <div className="flex items-center">
                 <h1 className="text-white text-2xl font-bold mr-4">BobaAddict</h1>
                 <Image
@@ -58,28 +42,8 @@ export default function Nav() {
                         Summary
                     </Link>
                 </li>
-                <li className="ml-4">
-                    {user ? (
-                        <div className="flex items-center whitespace-nowrap ml-4">
-                            <h1 className="text-[#E3D1C3] font-bold text-lg mr-4">
-                                Hi, {user.name}
-                            </h1>
-                            <Image
-                                src={user.picture}
-                                alt={user.name}
-                                width={32}
-                                height={32}
-                                className="rounded-full w-8 h-8 cursor-pointer"
-                                title={user.name}
-                            />
-                        </div>
-                    ) : (
-                        <GoogleLogin
-                            onSuccess={handleSuccess}
-                            onError={() => console.log('Login Failed.')}
-                            auto_select={true}
-                        />
-                    )}
+                <li>
+                    <LoginForm/>
                 </li>
             </ul>
         </nav>
