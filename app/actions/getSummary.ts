@@ -6,9 +6,8 @@ export async function getBobaSummary() {
     if (!email) throw new Error("User not authenticated");
 
     const db = await getDb();
-    console.log("Database connected:", !!db); // Add this debug line
+    console.log("Database connected:", !!db);
 
-    // Also check if the collection exists and has data
     const collectionExists = await db.listCollections({name: "boba_entries"}).hasNext();
     console.log("Collection exists:", collectionExists);
 
@@ -21,15 +20,14 @@ export async function getBobaSummary() {
     const result = await db
         .collection("boba_entries")
         .aggregate([
-            { $match: { email } }, // filter by user email
+            { $match: { email } },
 
-            // Group overall totals and counts
             {
                 $group: {
                     _id: null,
                     total_spent: { $sum: "$price" },
                     total_visits: { $sum: 1 },
-                    total_cups: { $sum: 1 }, // assuming each entry is 1 cup
+                    total_cups: { $sum: 1 },
                     shops: { $push: "$shop_name" },
                     drinks: { $push: "$boba_name" },
                 },
@@ -38,7 +36,6 @@ export async function getBobaSummary() {
         .toArray();
 
     if (result.length === 0) {
-        // no data for user
         return {
             total_spent: 0,
             total_visits: 0,

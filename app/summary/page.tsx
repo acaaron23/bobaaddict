@@ -1,6 +1,10 @@
 import Summary from './summary';
 import { getBobaSummary } from '@/app/actions/getSummary';
 
+export const metadata = {
+    title: "Summary",
+};
+
 export default async function SummaryPage() {
     let summary;
 
