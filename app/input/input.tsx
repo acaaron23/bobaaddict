@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { addBobaEntry } from '@/app/actions/addBoba'
 
 export default function Input() {
     const [shopName, setShopName] = useState('')
@@ -66,7 +67,7 @@ export default function Input() {
         setRating(value)
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         if (!shopName || !bobaName || !price || !date || !rating) {
@@ -74,17 +75,27 @@ export default function Input() {
             return
         }
 
-        // In real MongoDB integration, you'd POST data here
+        try {
+            await addBobaEntry({
+                shop_name: shopName,
+                boba_name: bobaName,
+                price: parseFloat(price),
+                date,
+                rating,
+            })
 
-        setSuccessMessage('Boba Added Successfully!')
-        setTimeout(() => setSuccessMessage(null), 3000)
+            setSuccessMessage('Boba Added Successfully!')
+            setTimeout(() => setSuccessMessage(null), 3000)
 
-        setShopName('')
-        setBobaName('')
-        setPrice('')
-        setDate('')
-        setRating(null)
-        setError('')
+            setShopName('')
+            setBobaName('')
+            setPrice('')
+            setDate('')
+            setRating(null)
+            setError('')
+        } catch (err: any) {
+            setError(err.message || 'Something went wrong.')
+        }
     }
 
     const isFormValid = shopName && bobaName && price && date && rating
