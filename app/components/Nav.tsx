@@ -22,7 +22,7 @@ export default async function Nav() {
 
             <ul className="flex items-center list-none space-x-8">
                 <li className="text-[#E3D1C3] font-bold text-lg inline-flex items-center gap-8">
-                    {userName ? (<p>Hello, {userName.split(" ")[0]}!</p>) : ("")}
+                    {userName ? (<p>Hi, {userName.split(" ")[0]}!</p>) : ("")}
                 </li>
                 <li>
                     <Link
