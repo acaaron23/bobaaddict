@@ -3,19 +3,21 @@
 import { useState, useRef } from 'react'
 import { addBobaEntry } from '@/app/actions/addBoba'
 
-export default function Input() {
+type Suggestions = {
+    shops: string[]
+    drinks: string[]
+}
+
+export default function Input({ suggestions }: { suggestions: Suggestions }) {
+    const [shopSuggestions, setShopSuggestions] = useState<string[]>(suggestions.shops)
+    const [drinkSuggestions, setDrinkSuggestions] = useState<string[]>(suggestions.drinks)
     const [shopName, setShopName] = useState('')
     const [bobaName, setBobaName] = useState('')
     const [price, setPrice] = useState('')
     const [date, setDate] = useState('')
     const [rating, setRating] = useState<'fire' | 'mid' | 'trash' | null>(null)
-    const [shopSuggestions, setShopSuggestions] = useState<string[]>([])
-    const [drinkSuggestions, setDrinkSuggestions] = useState<string[]>([])
     const [successMessage, setSuccessMessage] = useState<string | null>(null)
     const [error, setError] = useState('')
-
-    const allShops = ['Tiger Sugar', 'Gong Cha', 'Boba Guys']
-    const allDrinks = ['Brown Sugar Milk Tea', 'Matcha Latte', 'Taro Smoothie']
 
     const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -28,29 +30,11 @@ export default function Input() {
     const handleShopNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value
         setShopName(inputValue)
-
-        if (inputValue.trim()) {
-            const filtered = allShops.filter((s) =>
-                s.toLowerCase().includes(inputValue.toLowerCase())
-            )
-            setShopSuggestions(filtered)
-        } else {
-            setShopSuggestions([])
-        }
     }
 
     const handleDrinkNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value
         setBobaName(inputValue)
-
-        if (inputValue.trim()) {
-            const filtered = allDrinks.filter((d) =>
-                d.toLowerCase().includes(inputValue.toLowerCase())
-            )
-            setDrinkSuggestions(filtered)
-        } else {
-            setDrinkSuggestions([])
-        }
     }
 
     const handleSuggestionClick = (value: string, type: 'shop' | 'drink') => {
@@ -119,61 +103,69 @@ export default function Input() {
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-lg shadow-md relative"
             >
-                <input
-                    type="text"
-                    placeholder="Shop Name"
-                    value={shopName}
-                    onChange={handleShopNameChange}
-                    ref={inputRef}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
-                />
-                {shopSuggestions.length > 0 && (
-                    <ul className="absolute top-[13.5rem] left-6 right-6 bg-white rounded-md shadow-md z-10">
-                        {shopSuggestions.map((s) => (
-                            <li
-                                key={s}
-                                onClick={() => handleSuggestionClick(s, 'shop')}
-                                className="p-3 hover:bg-gray-100 cursor-pointer"
-                            >
-                                {s}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                <div className="relative">
+                    <input
+                        type="text"
+                        placeholder="Shop Name"
+                        value={shopName}
+                        onChange={handleShopNameChange}
+                        ref={inputRef}
+                        className="p-3 text-base border border-gray-300 rounded-md w-full"
+                    />
+                    {shopName && shopSuggestions.length > 0 && (
+                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1">
+                            {shopSuggestions
+                                .filter((s) => s.toLowerCase().includes(shopName.toLowerCase()))
+                                .map((s) => (
+                                    <li
+                                        key={s}
+                                        onClick={() => handleSuggestionClick(s, 'shop')}
+                                        className="p-2 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                        {s}
+                                    </li>
+                                ))}
+                        </ul>
+                    )}
+                </div>
 
-                <input
-                    type="text"
-                    placeholder="Boba Name"
-                    value={bobaName}
-                    onChange={handleDrinkNameChange}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
-                />
-                {drinkSuggestions.length > 0 && (
-                    <ul className="absolute top-[20rem] left-6 right-6 bg-white rounded-md shadow-md z-10">
-                        {drinkSuggestions.map((d) => (
-                            <li
-                                key={d}
-                                onClick={() => handleSuggestionClick(d, 'drink')}
-                                className="p-3 hover:bg-gray-100 cursor-pointer"
-                            >
-                                {d}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                <div className="relative">
+                    <input
+                        type="text"
+                        placeholder="Boba Name"
+                        value={bobaName}
+                        onChange={handleDrinkNameChange}
+                        className="p-3 text-base border border-gray-300 rounded-md w-full"
+                    />
+                    {bobaName && drinkSuggestions.length > 0 && (
+                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1">
+                            {drinkSuggestions
+                                .filter((d) => d.toLowerCase().includes(bobaName.toLowerCase()))
+                                .map((d) => (
+                                    <li
+                                        key={d}
+                                        onClick={() => handleSuggestionClick(d, 'drink')}
+                                        className="p-2 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                        {d}
+                                    </li>
+                                ))}
+                        </ul>
+                    )}
+                </div>
 
                 <input
                     type="text"
                     placeholder="Price ($)"
                     value={`$ ${price}`}
                     onChange={handlePriceChange}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
+                    className="p-3 text-base border border-gray-300 rounded-md"
                 />
                 <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
+                    className="p-3 text-base border border-gray-300 rounded-md"
                 />
 
                 <div className="flex justify-around my-4">

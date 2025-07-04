@@ -99,7 +99,7 @@ export default function Summary({
                             <span className="font-bold text-blue-600">
                                 {(summary.total_spent / 575.22).toFixed(2)}
                             </span>{' '}
-                            shares of VOO. Ouch!
+                            shares of VOO.
                         </p>
                     </div>
                     <button

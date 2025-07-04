@@ -10,7 +10,7 @@ export default async function Nav() {
     return (
         <nav className="flex w-full justify-between items-center h-20 bg-black px-10">
             <div className="flex items-center">
-                <h1 className="text-white text-2xl font-bold mr-4">BobaAddict</h1>
+                <h1 className="text-white text-2xl font-bold">BobaAddict</h1>
                 <Image
                     src="/boba.png"
                     alt="BobaAddict logo"
