@@ -22,7 +22,7 @@ export default function Summary({
 
     if (!summary || summary?.total_cups === 0 || summary?.total_spent === 0) {
         return (
-            <div className="min-h-screen bg-[#E3D1C3] flex flex-col items-center justify-center px-6 py-10">
+            <div className="min-h-screen  flex flex-col items-center justify-center px-6 py-10">
                 <h1 className="text-4xl font-bold text-black text-center mb-4">
                     Your Boba Purchase Summary for {currentMonth}
                 </h1>
@@ -34,7 +34,7 @@ export default function Summary({
     }
 
     return (
-        <div className="min-h-screen bg-[#E3D1C3] flex flex-col items-center justify-center px-6 py-10">
+        <div className="min-h-screen  flex flex-col items-center justify-center px-6 py-10">
             <h1 className="text-4xl font-bold text-black text-center mb-4">
                 Your Boba Purchase Summary for {currentMonth}
             </h1>

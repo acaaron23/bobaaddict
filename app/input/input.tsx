@@ -85,7 +85,7 @@ export default function Input({ suggestions }: { suggestions: Suggestions }) {
     const isFormValid = shopName && bobaName && price && date && rating
 
     return (
-        <div className="min-h-screen bg-[#E3D1C3] flex flex-col items-center justify-center relative px-4">
+        <div className="min-h-screen flex flex-col items-center justify-center relative px-4">
             {successMessage && (
                 <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-md text-lg z-50 animate-fadeInOut">
                     {successMessage}

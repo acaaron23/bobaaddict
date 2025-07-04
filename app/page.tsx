@@ -15,7 +15,7 @@ export default function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-[#E3D1C3] flex flex-col items-center justify-center px-4">
+        <div className="min-h-screen flex flex-col items-center justify-center px-4">
             <h1 className="mt-[35vh] text-4xl md:text-5xl font-bold text-black text-center mb-4">
                 Welcome to Boba Addicts!
             </h1>
@@ -31,7 +31,7 @@ export default function Home() {
 
             <div
                 ref={explanationRef}
-                className="min-h-screen w-full bg-[#E3D1C3] flex flex-col items-center justify-center mt-20 px-4"
+                className="min-h-screen w-full flex flex-col items-center justify-center mt-20 px-4"
             >
                 <p className="text-3xl md:text-4xl font-bold text-black text-center mb-4">
                     How does it work?

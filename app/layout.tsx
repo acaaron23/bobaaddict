@@ -33,7 +33,7 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col antialiased bg-[#E3D1C3]`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col antialiased bg-radial from-[#f3e5d7] via-[#e3d1c3] to-[#E3D1C3]`}>
             <GoogleOAuthProvider clientId={CLIENT_ID}>
                 <Nav />
                 <main className="flex-grow w-full">{children}</main>
