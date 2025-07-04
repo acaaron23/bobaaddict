@@ -97,9 +97,9 @@ export default function Summary({
                         <p className="text-lg text-gray-700 mt-4">
                             With this amount spent on boba, you could&#39;ve bought{' '}
                             <span className="font-bold text-blue-600">
-                                {(summary.total_spent / 562.81).toFixed(2)}
+                                {(summary.total_spent / 575.22).toFixed(2)}
                             </span>{' '}
-                            shares of SPY. Oh well, we can always buy the dip!
+                            shares of VOO. Ouch!
                         </p>
                     </div>
                     <button
