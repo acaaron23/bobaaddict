@@ -1,10 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import LoginForm from "@/app/components/LoginForm";
+import LoginForm from "@/app/components/LoginForm"
+import LogoutForm from "@/app/components/LogoutForm"
+import { getCurrentUserName } from '@/app/actions/getCurrentUser'
 
-export default function Nav() {
+export default async function Nav() {
+    const userName = await getCurrentUserName();
+
     return (
-        <nav className="flex w-full justify-between items-center h-20 bg-black px-8">
+        <nav className="flex w-full justify-between items-center h-20 bg-black px-10">
             <div className="flex items-center">
                 <h1 className="text-white text-2xl font-bold mr-4">BobaAddict</h1>
                 <Image
@@ -16,9 +20,8 @@ export default function Nav() {
                 />
             </div>
 
-            {/* Navigation Links */}
-            <ul className="flex items-center list-none">
-                <li className="mx-4">
+            <ul className="flex items-center list-none space-x-8">
+                <li>
                     <Link
                         href="/"
                         className="text-[#E3D1C3] font-bold text-lg no-underline hover:text-gray-400 hover:text-shadow-sm transition-colors duration-300"
@@ -26,7 +29,7 @@ export default function Nav() {
                         Home
                     </Link>
                 </li>
-                <li className="mx-4">
+                <li>
                     <Link
                         href="/input"
                         className="text-[#E3D1C3] font-bold text-lg no-underline hover:text-gray-400 hover:text-shadow-sm transition-colors duration-300"
@@ -34,7 +37,7 @@ export default function Nav() {
                         Enter Boba
                     </Link>
                 </li>
-                <li className="mx-4">
+                <li>
                     <Link
                         href="/summary"
                         className="text-[#E3D1C3] font-bold text-lg no-underline hover:text-gray-400 hover:text-shadow-sm transition-colors duration-300"
@@ -42,10 +45,17 @@ export default function Nav() {
                         Summary
                     </Link>
                 </li>
-                <li>
-                    <LoginForm/>
+                <li className="text-[#E3D1C3] font-bold text-lg inline-flex items-center gap-8">
+                    {userName ? (
+                        <>
+                            <p>Hello, {userName.split(" ")[0]}!</p>
+                            <LogoutForm />
+                        </>
+                    ) : (
+                        <LoginForm />
+                    )}
                 </li>
             </ul>
         </nav>
-    )
+    );
 }

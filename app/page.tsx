@@ -17,7 +17,7 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-[#E3D1C3] flex flex-col items-center justify-center px-4">
             <h1 className="mt-[35vh] text-4xl md:text-5xl font-bold text-black text-center mb-4">
-                Boba Addicts, this is for you!
+                Welcome to Boba Addicts!
             </h1>
             <p className="text-lg text-black text-center mb-6">
                 Journal your boba addiction, one card swipe at a time!

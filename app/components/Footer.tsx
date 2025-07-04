@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className="text-center w-full text-sm py-4">
             <p>
-                All Rights Reserved by Aaron Chen{' '}
+                All Rights Reserved by BobaAddicts{' '}
                 <Link href="/" className="text-red-800 no-underline">
                     Credits
                 </Link>{' '}

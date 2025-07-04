@@ -125,7 +125,7 @@ export default function Input() {
                     value={shopName}
                     onChange={handleShopNameChange}
                     ref={inputRef}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-purple-700"
+                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
                 />
                 {shopSuggestions.length > 0 && (
                     <ul className="absolute top-[13.5rem] left-6 right-6 bg-white rounded-md shadow-md z-10">
@@ -146,7 +146,7 @@ export default function Input() {
                     placeholder="Boba Name"
                     value={bobaName}
                     onChange={handleDrinkNameChange}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-purple-700"
+                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
                 />
                 {drinkSuggestions.length > 0 && (
                     <ul className="absolute top-[20rem] left-6 right-6 bg-white rounded-md shadow-md z-10">
@@ -167,13 +167,13 @@ export default function Input() {
                     placeholder="Price ($)"
                     value={`$ ${price}`}
                     onChange={handlePriceChange}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-purple-700"
+                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
                 />
                 <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-purple-700"
+                    className="p-3 text-base border border-gray-300 rounded-md focus:outline-none focus:border-black"
                 />
 
                 <div className="flex justify-around my-4">
@@ -203,7 +203,7 @@ export default function Input() {
                     disabled={!isFormValid}
                     className={`py-3 px-6 font-bold rounded-full transition-transform ${
                         isFormValid
-                            ? 'bg-white text-black hover:scale-105 active:scale-95'
+                            ? 'bg-black text-white hover:scale-105 active:scale-95'
                             : 'bg-gray-300 text-gray-600 cursor-not-allowed'
                     }`}
                 >
