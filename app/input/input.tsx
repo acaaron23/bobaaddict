@@ -78,7 +78,12 @@ export default function Input({ suggestions }: { suggestions: Suggestions }) {
             setRating(null)
             setError('')
         } catch (err: any) {
-            setError(err.message || 'Something went wrong.')
+            if (err.message === 'User not authenticated'){
+                setError("Please Login to Continue!")
+            }
+            else {
+                setError(err.message || 'Something went wrong.')
+            }
         }
     }
 

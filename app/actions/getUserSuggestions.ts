@@ -3,7 +3,6 @@ import { getDb } from "./mongodb";
 
 export async function getUserSuggestions() {
     const email = await getCurrentUserEmail();
-    if (!email) throw new Error("User not authenticated");
 
     const db = await getDb();
     const entries = await db

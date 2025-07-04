@@ -10,7 +10,7 @@ export default async function Nav() {
     return (
         <nav className="flex w-full justify-between items-center h-20 bg-black px-10">
             <div className="flex items-center">
-                <h1 className="text-white text-2xl font-bold">BobaAddict</h1>
+                <Link href="/" className="text-white text-2xl font-bold"> BobaAddict </Link>
                 <Image
                     src="/boba.png"
                     alt="BobaAddict logo"
@@ -21,6 +21,9 @@ export default async function Nav() {
             </div>
 
             <ul className="flex items-center list-none space-x-8">
+                <li className="text-[#E3D1C3] font-bold text-lg inline-flex items-center gap-8">
+                    {userName ? (<p>Hello, {userName.split(" ")[0]}!</p>) : ("")}
+                </li>
                 <li>
                     <Link
                         href="/"
@@ -48,7 +51,6 @@ export default async function Nav() {
                 <li className="text-[#E3D1C3] font-bold text-lg inline-flex items-center gap-8">
                     {userName ? (
                         <>
-                            <p>Hello, {userName.split(" ")[0]}!</p>
                             <LogoutForm />
                         </>
                     ) : (
