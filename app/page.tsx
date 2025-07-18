@@ -15,19 +15,32 @@ export default function Home() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center px-4">
-            <h1 className="mt-[35vh] text-4xl md:text-5xl font-bold text-black text-center mb-4">
-                Welcome to Boba Addicts!
-            </h1>
-            <p className="text-lg text-black text-center mb-6">
-                Journal your boba addiction, one card swipe at a time!
-            </p>
-            <button
-                onClick={scrollToExplanation}
-                className="text-base md:text-lg px-6 py-3 bg-white text-black font-bold rounded-full transition-transform hover:scale-105 active:scale-95"
-            >
-                Learn more about BobaAddict
-            </button>
+        <div className=" flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                <div className="flex flex-col md:flex-row gap-6 items-center justify-center w-full mx-auto">
+                    <div className="flex flex-col justify-center w-full md:w-1/2 text-center md:text-left px-6">
+                        <h1 className="text-5xl md:text-7xl font-bold mb-2">Welcome to</h1>
+                        <h2 className="text-6xl md:text-9xl font-bold mb-4 text-[#b3886c]">Boba Addict!</h2>
+                        <p className="text-3xl md:text-4xl font-semibold text-black">
+                            Journal your boba addiction, <br/> one card swipe at a time!
+                        </p>
+                        <button
+                            onClick={scrollToExplanation}
+                            className="w-fit text-xl px-4 py-4 bg-black text-white font-bold rounded-full transition-transform hover:scale-105 active:scale-95 mt-4 self-start"
+                        >
+                            Learn more about BobaAddict
+                        </button>
+                    </div>
+
+                    <div className="w-1/2 md:w-1/4 flex items-center justify-center px-4">
+                        <img
+                            src="/boba.png"
+                            alt="BobaAddict logo"
+                            className="w-[20rem] h-auto object-contain"
+                        />
+                    </div>
+                </div>
+            </div>
 
             <div
                 ref={explanationRef}
