@@ -11,13 +11,6 @@ export default async function Nav() {
         <nav className="flex w-full justify-between items-center h-20 bg-black px-10">
             <div className="flex items-center">
                 <Link href="/" className="text-white text-2xl font-bold"> BobaAddict </Link>
-                <Image
-                    src="/boba.png"
-                    alt="BobaAddict logo"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10"
-                />
             </div>
 
             <ul className="flex items-center list-none space-x-8">

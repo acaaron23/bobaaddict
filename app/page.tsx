@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import ZigzagSteps from '@/app/components/ZigZagSteps';
 
 export default function Home() {
     const explanationRef = useRef<HTMLDivElement | null>(null)
@@ -13,6 +14,33 @@ export default function Home() {
             })
         }
     }
+
+    const bobaSteps = [
+        {
+            id: 1,
+            title: "Login Using Google",
+            description: "Secure and personalized access",
+            content: "By logging in with Google, BobaAddict can store and save all of your past purchases!",
+        },
+        {
+            id: 2,
+            title: "Begin Entering Boba",
+            description: "Add your drinks easily",
+            content: "Enter your store, name of the drink, price, and your rating. Then simply click submit!",
+        },
+        {
+            id: 3,
+            title: "Interested in Your Summary",
+            description: "See your data in action",
+            content: "Click Summary and click generate report! You'll get a cool summary with the number of drinks and how much you’ve spent!",
+        },
+        {
+            id: 4,
+            title: "Enjoy",
+            description: "Track your spending in style",
+            content: "Have fun with BobaAddict and learn how much money you could save and have spent on your favorite drinks!",
+        }
+    ];
 
     return (
         <div className=" flex flex-col items-center justify-center">
@@ -46,19 +74,11 @@ export default function Home() {
                 ref={explanationRef}
                 className="min-h-screen w-full flex flex-col items-center justify-center mt-20 px-4"
             >
-                <p className="text-3xl md:text-4xl font-bold text-black text-center mb-4">
-                    How does it work?
-                </p>
-                <p className="text-lg text-black text-center max-w-2xl leading-relaxed">
-                    Ever wondered how much you spend on boba each month? <br />
-                    <span className="inline-block mt-2">BobaAddict is here to help you track your boba expenses!</span>
-                    <br />
-                    <br />
-                    Enter the shop&#39;s name, the drink&#39;s name, the price, the date, rate it, and hit submit!
-                    <br />
-                    <br />
-                    When you need to see the damage, click <strong>Request Info</strong> to see your stats!
-                </p>
+
+                <div className="mt-20">
+                    <h2 className="text-4xl font-bold text-center mb-12">How BobaAddict Works</h2>
+                    <ZigzagSteps steps={bobaSteps} />
+                </div>
             </div>
         </div>
     )
