@@ -65,7 +65,8 @@ export default function Home() {
                         <Image
                             src="/boba.png"
                             alt="BobaAddict logo"
-                            className="w-[20rem] h-auto object-contain"
+                            width={250}
+                            height={250}
                         />
                     </div>
                 </div>
