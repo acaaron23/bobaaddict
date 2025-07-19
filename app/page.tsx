@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import ZigzagSteps from '@/app/components/ZigZagSteps';
+import Image from 'next/image'
 
 export default function Home() {
     const explanationRef = useRef<HTMLDivElement | null>(null)
@@ -61,7 +62,7 @@ export default function Home() {
                     </div>
 
                     <div className="w-1/2 md:w-1/4 flex items-center justify-center px-4">
-                        <img
+                        <Image
                             src="/boba.png"
                             alt="BobaAddict logo"
                             className="w-[20rem] h-auto object-contain"
