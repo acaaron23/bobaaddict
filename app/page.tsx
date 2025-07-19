@@ -20,25 +20,25 @@ export default function Home() {
             id: 1,
             title: "Login Using Google",
             description: "Secure and personalized access",
-            content: "By logging in with Google, BobaAddict can store and save all of your past purchases!",
+            content: "By logging in with Google, BobaAddict can store and save all of your past purchases! Note: BobaAddict won't work otherwise. ",
         },
         {
             id: 2,
             title: "Begin Entering Boba",
             description: "Add your drinks easily",
-            content: "Enter your store, name of the drink, price, and your rating. Then simply click submit!",
+            content: "Enter the name of the store, drink, price, date, and your rating. Then, simply click submit!",
         },
         {
             id: 3,
             title: "Interested in Your Summary",
             description: "See your data in action",
-            content: "Click Summary and click generate report! You'll get a cool summary with the number of drinks and how much you’ve spent!",
+            content: "Click Summary and click Generate Summary. You'll get a cool summary with the number of drinks and how much you’ve spent!",
         },
         {
             id: 4,
             title: "Enjoy",
             description: "Track your spending in style",
-            content: "Have fun with BobaAddict and learn how much money you could save and have spent on your favorite drinks!",
+            content: "Have fun with BobaAddict! Learn how much money you have spent and could save on your favorite drinks.",
         }
     ];
 
