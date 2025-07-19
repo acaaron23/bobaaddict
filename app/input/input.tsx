@@ -37,7 +37,6 @@ export default function Input({
         if (successMessage) setSuccessMessage(null)
     }
 
-    // Filter suggestions directly from props based on input
     const filteredShopSuggestions = suggestions.shops.filter((s) =>
         s.toLowerCase().includes(shopName.toLowerCase())
     )
@@ -54,23 +53,23 @@ export default function Input({
 
     const handleShopNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setShopName(e.target.value)
-        setShowShopSuggestions(true) // Show suggestions when typing
+        setShowShopSuggestions(true)
         clearMessages()
     }
 
     const handleDrinkNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBobaName(e.target.value)
-        setShowDrinkSuggestions(true) // Show suggestions when typing
+        setShowDrinkSuggestions(true)
         clearMessages()
     }
 
     const handleSuggestionClick = (value: string, type: 'shop' | 'drink') => {
         if (type === 'shop') {
             setShopName(value)
-            setShowShopSuggestions(false) // Hide suggestions on select
+            setShowShopSuggestions(false)
         } else {
             setBobaName(value)
-            setShowDrinkSuggestions(false) // Hide suggestions on select
+            setShowDrinkSuggestions(false)
         }
         clearMessages()
     }
