@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { addBobaEntry } from '@/app/actions/addBoba'
 
 type Suggestions = {
@@ -8,9 +8,13 @@ type Suggestions = {
     drinks: string[]
 }
 
-export default function Input({ suggestions }: { suggestions: Suggestions }) {
-    const [shopSuggestions, setShopSuggestions] = useState<string[]>(suggestions.shops)
-    const [drinkSuggestions, setDrinkSuggestions] = useState<string[]>(suggestions.drinks)
+export default function Input({
+                                  suggestions,
+                                  serverError = '',
+                              }: {
+    suggestions: Suggestions
+    serverError?: string
+}) {
     const [shopName, setShopName] = useState('')
     const [bobaName, setBobaName] = useState('')
     const [price, setPrice] = useState('')
@@ -19,43 +23,82 @@ export default function Input({ suggestions }: { suggestions: Suggestions }) {
     const [successMessage, setSuccessMessage] = useState<string | null>(null)
     const [error, setError] = useState('')
 
+    const [showShopSuggestions, setShowShopSuggestions] = useState(false)
+    const [showDrinkSuggestions, setShowDrinkSuggestions] = useState(false)
+
     const inputRef = useRef<HTMLInputElement | null>(null)
+
+    useEffect(() => {
+        if (serverError) setError(serverError)
+    }, [serverError])
+
+    const clearMessages = () => {
+        if (error) setError('')
+        if (successMessage) setSuccessMessage(null)
+    }
+
+    // Filter suggestions directly from props based on input
+    const filteredShopSuggestions = suggestions.shops.filter((s) =>
+        s.toLowerCase().includes(shopName.toLowerCase())
+    )
+    const filteredDrinkSuggestions = suggestions.drinks.filter((d) =>
+        d.toLowerCase().includes(bobaName.toLowerCase())
+    )
 
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value
         const formattedValue = inputValue.replace(/[^0-9.]/g, '')
         setPrice(formattedValue)
+        clearMessages()
     }
 
     const handleShopNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = e.target.value
-        setShopName(inputValue)
+        setShopName(e.target.value)
+        setShowShopSuggestions(true) // Show suggestions when typing
+        clearMessages()
     }
 
     const handleDrinkNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = e.target.value
-        setBobaName(inputValue)
+        setBobaName(e.target.value)
+        setShowDrinkSuggestions(true) // Show suggestions when typing
+        clearMessages()
     }
 
     const handleSuggestionClick = (value: string, type: 'shop' | 'drink') => {
         if (type === 'shop') {
             setShopName(value)
-            setShopSuggestions([])
+            setShowShopSuggestions(false) // Hide suggestions on select
         } else {
             setBobaName(value)
-            setDrinkSuggestions([])
+            setShowDrinkSuggestions(false) // Hide suggestions on select
         }
+        clearMessages()
     }
 
     const handleRatingClick = (value: 'fire' | 'mid' | 'trash') => {
         setRating(value)
+        clearMessages()
     }
+
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDate(e.target.value)
+        clearMessages()
+    }
+
+    const isFormValid = shopName && bobaName && price && date && rating
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setError('')
+        setSuccessMessage('')
 
-        if (!shopName || !bobaName || !price || !date || !rating) {
+        if (!isFormValid) {
             setError('Please fill out all fields.')
+            return
+        }
+
+        if (isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
+            setError('Please enter a valid price.')
             return
         }
 
@@ -69,18 +112,18 @@ export default function Input({ suggestions }: { suggestions: Suggestions }) {
             })
 
             setSuccessMessage('Boba Added Successfully!')
-            setTimeout(() => setSuccessMessage(null), 3000)
 
             setShopName('')
             setBobaName('')
             setPrice('')
             setDate('')
             setRating(null)
-            setError('')
+            setShowShopSuggestions(false)
+            setShowDrinkSuggestions(false)
         } catch (err: unknown) {
             if (err instanceof Error) {
                 if (err.message === 'User not authenticated') {
-                    setError("Please Login to Continue!")
+                    setError('Please Login to Continue!')
                 } else {
                     setError(err.message || 'Something went wrong.')
                 }
@@ -89,8 +132,6 @@ export default function Input({ suggestions }: { suggestions: Suggestions }) {
             }
         }
     }
-
-    const isFormValid = shopName && bobaName && price && date && rating
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center relative px-4">
@@ -119,20 +160,19 @@ export default function Input({ suggestions }: { suggestions: Suggestions }) {
                         onChange={handleShopNameChange}
                         ref={inputRef}
                         className="p-3 text-base border border-gray-300 rounded-md w-full"
+                        autoComplete="off"
                     />
-                    {shopName && shopSuggestions.length > 0 && (
-                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1">
-                            {shopSuggestions
-                                .filter((s) => s.toLowerCase().includes(shopName.toLowerCase()))
-                                .map((s) => (
-                                    <li
-                                        key={s}
-                                        onClick={() => handleSuggestionClick(s, 'shop')}
-                                        className="p-2 hover:bg-gray-100 cursor-pointer"
-                                    >
-                                        {s}
-                                    </li>
-                                ))}
+                    {showShopSuggestions && filteredShopSuggestions.length > 0 && (
+                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto">
+                            {filteredShopSuggestions.map((s) => (
+                                <li
+                                    key={s}
+                                    onClick={() => handleSuggestionClick(s, 'shop')}
+                                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    {s}
+                                </li>
+                            ))}
                         </ul>
                     )}
                 </div>
@@ -144,35 +184,44 @@ export default function Input({ suggestions }: { suggestions: Suggestions }) {
                         value={bobaName}
                         onChange={handleDrinkNameChange}
                         className="p-3 text-base border border-gray-300 rounded-md w-full"
+                        autoComplete="off"
                     />
-                    {bobaName && drinkSuggestions.length > 0 && (
-                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1">
-                            {drinkSuggestions
-                                .filter((d) => d.toLowerCase().includes(bobaName.toLowerCase()))
-                                .map((d) => (
-                                    <li
-                                        key={d}
-                                        onClick={() => handleSuggestionClick(d, 'drink')}
-                                        className="p-2 hover:bg-gray-100 cursor-pointer"
-                                    >
-                                        {d}
-                                    </li>
-                                ))}
+                    {showDrinkSuggestions && filteredDrinkSuggestions.length > 0 && (
+                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto">
+                            {filteredDrinkSuggestions.map((d) => (
+                                <li
+                                    key={d}
+                                    onClick={() => handleSuggestionClick(d, 'drink')}
+                                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    {d}
+                                </li>
+                            ))}
                         </ul>
                     )}
                 </div>
 
-                <input
-                    type="text"
-                    placeholder="Price ($)"
-                    value={`$ ${price}`}
-                    onChange={handlePriceChange}
-                    className="p-3 text-base border border-gray-300 rounded-md"
-                />
+                <div className="relative">
+                  <span
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 pointer-events-none select-none"
+                      aria-hidden="true"
+                  >
+                    $
+                  </span>
+                    <input
+                        type="text"
+                        placeholder="Price"
+                        value={price}
+                        onChange={handlePriceChange}
+                        className="p-3 pl-7 text-base border border-gray-300 rounded-md w-full"
+                        inputMode="decimal"
+                    />
+                </div>
+
                 <input
                     type="date"
                     value={date}
-                    onChange={(e) => setDate(e.target.value)}
+                    onChange={handleDateChange}
                     className="p-3 text-base border border-gray-300 rounded-md"
                 />
 
