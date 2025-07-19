@@ -5,6 +5,8 @@ export const metadata = {
     title: "Summary",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function SummaryPage() {
     let summary;
 
