@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import LoginForm from "@/app/components/LoginForm"
 import LogoutForm from "@/app/components/LogoutForm"
 import { getCurrentUserName } from '@/app/actions/getCurrentUser'
