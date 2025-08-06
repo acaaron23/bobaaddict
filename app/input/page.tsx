@@ -24,7 +24,7 @@ export default async function InputPage() {
                     <h1 className="text-4xl font-bold text-black mb-4">
                         Please Log In
                     </h1>
-                    <p className="text-lg text-gray-600 mb-8">
+                    <p className="text-lg text-gray-800 mb-4">
                         You need to be logged in to add boba entries.
                     </p>
                     <div className="flex flex-col items-center justify-center text-center w-1/2 mx-auto bg-black p-3 rounded-lg shadow-md">
