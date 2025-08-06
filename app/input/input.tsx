@@ -18,7 +18,10 @@ export default function Input({
     const [shopName, setShopName] = useState('')
     const [bobaName, setBobaName] = useState('')
     const [price, setPrice] = useState('')
-    const [date, setDate] = useState('')
+    const [date, setDate] = useState(() => {
+        const today = new Date()
+        return today.toISOString().split('T')[0]
+    })
     const [rating, setRating] = useState<'fire' | 'mid' | 'trash' | null>(null)
     const [successMessage, setSuccessMessage] = useState<string | null>(null)
     const [error, setError] = useState('')
@@ -52,14 +55,16 @@ export default function Input({
     }
 
     const handleShopNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setShopName(e.target.value)
-        setShowShopSuggestions(true)
+        const value = e.target.value
+        setShopName(value)
+        setShowShopSuggestions(value.length > 0)
         clearMessages()
     }
 
     const handleDrinkNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBobaName(e.target.value)
-        setShowDrinkSuggestions(true)
+        const value = e.target.value
+        setBobaName(value)
+        setShowDrinkSuggestions(value.length > 0)
         clearMessages()
     }
 
