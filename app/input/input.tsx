@@ -277,7 +277,6 @@ export default function Input({
                 <div className="flex justify-around my-4">
                     {(['🔥', '😐', '🗑️'] as const).map((emoji, idx) => {
                         const value = ['fire', 'mid', 'trash'][idx] as 'fire' | 'mid' | 'trash'
-                        const labels = ['Fire', 'Mid', 'Trash']
                         return (
                             <button
                                 key={value}
