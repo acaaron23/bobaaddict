@@ -1,5 +1,6 @@
 import Summary from './summary';
 import { getBobaSummary } from '@/app/actions/getSummary';
+import { getBobaEntries } from '@/app/actions/getBobaEntries';
 
 export const metadata = {
     title: "Summary",
@@ -7,11 +8,39 @@ export const metadata = {
 
 export const dynamic = 'force-dynamic';
 
+type BobaEntry = {
+    id: number
+    shop_name: string;
+    boba_name: string;
+    price: number;
+    date: string;
+    rating: 'fire' | 'mid' | 'trash';
+};
+
+type SummaryType = {
+    total_spent: number;
+    total_visits: number;
+    total_cups: number;
+    average_spent: number;
+    most_visited_shop: { shop_name: string; shop_visits: number };
+    most_popular_drink: { boba_name: string; drink_count: number };
+};
+
 export default async function SummaryPage() {
-    let summary;
+    let summary: SummaryType;
+    let entries: BobaEntry[] = [];
 
     try {
-        summary = await getBobaSummary();
+        const [summaryResult, entriesResult] = await Promise.all([
+            getBobaSummary(),
+            getBobaEntries()
+        ]);
+
+        summary = summaryResult;
+        entries = entriesResult;
+
+        console.log('Fetched entries count:', entries.length);
+
     } catch (error) {
         console.error('Failed to get summary:', error);
         summary = {
@@ -22,9 +51,10 @@ export default async function SummaryPage() {
             most_visited_shop: { shop_name: 'N/A', shop_visits: 0 },
             most_popular_drink: { boba_name: 'N/A', drink_count: 0 },
         };
+        entries = [];
     }
 
     const currentMonth = new Date().toLocaleString('default', { month: 'long' });
 
-    return <Summary summary={summary} currentMonth={currentMonth} />;
+    return <Summary summary={summary} currentMonth={currentMonth} entries={entries} />;
 }
