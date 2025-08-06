@@ -1,5 +1,7 @@
 import Input from '../input/input'
 import { getUserSuggestions } from '@/app/actions/getUserSuggestions'
+import { auth } from "@/auth"
+import LoginForm from "@/app/components/LoginForm";
 
 export const metadata = {
     title: 'Enter Boba',
@@ -13,6 +15,26 @@ type Suggestions = {
 }
 
 export default async function InputPage() {
+    const session = await auth()
+
+    if (!session?.user?.email) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4">
+                <div className="text-center">
+                    <h1 className="text-4xl font-bold text-black mb-4">
+                        Please Log In
+                    </h1>
+                    <p className="text-lg text-gray-600 mb-8">
+                        You need to be logged in to add boba entries.
+                    </p>
+                    <div className="flex flex-col items-center justify-center text-center w-1/2 mx-auto bg-black text-white p-3 rounded-lg shadow-md">
+                        <LoginForm />
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     let suggestions: Suggestions = { shops: [], drinks: [] }
     let fetchError = ''
 

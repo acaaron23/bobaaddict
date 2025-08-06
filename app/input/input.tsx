@@ -29,11 +29,32 @@ export default function Input({
     const [showShopSuggestions, setShowShopSuggestions] = useState(false)
     const [showDrinkSuggestions, setShowDrinkSuggestions] = useState(false)
 
-    const inputRef = useRef<HTMLInputElement | null>(null)
+    const shopInputRef = useRef<HTMLInputElement | null>(null)
+    const drinkInputRef = useRef<HTMLInputElement | null>(null)
+    const formRef = useRef<HTMLFormElement | null>(null)
 
     useEffect(() => {
         if (serverError) setError(serverError)
     }, [serverError])
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Node
+
+            const shopContainer = shopInputRef.current?.parentElement
+            const drinkContainer = drinkInputRef.current?.parentElement
+
+            if (shopContainer && !shopContainer.contains(target)) {
+                setShowShopSuggestions(false)
+            }
+            if (drinkContainer && !drinkContainer.contains(target)) {
+                setShowDrinkSuggestions(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
 
     const clearMessages = () => {
         if (error) setError('')
@@ -49,7 +70,7 @@ export default function Input({
 
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value
-        const formattedValue = inputValue.replace(/[^0-9.]/g, '')
+        const formattedValue = inputValue.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1')
         setPrice(formattedValue)
         clearMessages()
     }
@@ -79,6 +100,16 @@ export default function Input({
         clearMessages()
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent, type: 'shop' | 'drink') => {
+        if (e.key === 'Escape') {
+            if (type === 'shop') {
+                setShowShopSuggestions(false)
+            } else {
+                setShowDrinkSuggestions(false)
+            }
+        }
+    }
+
     const handleRatingClick = (value: 'fire' | 'mid' | 'trash') => {
         setRating(value)
         clearMessages()
@@ -90,6 +121,19 @@ export default function Input({
     }
 
     const isFormValid = shopName && bobaName && price && date && rating
+
+    const resetForm = () => {
+        setShopName('')
+        setBobaName('')
+        setPrice('')
+        setDate(() => {
+            const today = new Date()
+            return today.toISOString().split('T')[0]
+        })
+        setRating(null)
+        setShowShopSuggestions(false)
+        setShowDrinkSuggestions(false)
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -116,14 +160,7 @@ export default function Input({
             })
 
             setSuccessMessage('Boba Added Successfully!')
-
-            setShopName('')
-            setBobaName('')
-            setPrice('')
-            setDate('')
-            setRating(null)
-            setShowShopSuggestions(false)
-            setShowDrinkSuggestions(false)
+            resetForm()
         } catch (err: unknown) {
             if (err instanceof Error) {
                 if (err.message === 'User not authenticated') {
@@ -153,6 +190,7 @@ export default function Input({
             </p>
 
             <form
+                ref={formRef}
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-lg shadow-md relative"
             >
@@ -162,12 +200,15 @@ export default function Input({
                         placeholder="Shop Name"
                         value={shopName}
                         onChange={handleShopNameChange}
-                        ref={inputRef}
+                        onKeyDown={(e) => handleKeyDown(e, 'shop')}
+                        ref={shopInputRef}
                         className="p-3 text-base border border-gray-300 rounded-md w-full"
                         autoComplete="off"
                     />
                     {showShopSuggestions && filteredShopSuggestions.length > 0 && (
-                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto">
+                        <ul
+                            className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto"
+                        >
                             {filteredShopSuggestions.map((s) => (
                                 <li
                                     key={s}
@@ -187,11 +228,15 @@ export default function Input({
                         placeholder="Boba Name"
                         value={bobaName}
                         onChange={handleDrinkNameChange}
+                        onKeyDown={(e) => handleKeyDown(e, 'drink')}
+                        ref={drinkInputRef}
                         className="p-3 text-base border border-gray-300 rounded-md w-full"
                         autoComplete="off"
                     />
                     {showDrinkSuggestions && filteredDrinkSuggestions.length > 0 && (
-                        <ul className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto">
+                        <ul
+                            className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto"
+                        >
                             {filteredDrinkSuggestions.map((d) => (
                                 <li
                                     key={d}
@@ -232,6 +277,7 @@ export default function Input({
                 <div className="flex justify-around my-4">
                     {(['🔥', '😐', '🗑️'] as const).map((emoji, idx) => {
                         const value = ['fire', 'mid', 'trash'][idx] as 'fire' | 'mid' | 'trash'
+                        const labels = ['Fire', 'Mid', 'Trash']
                         return (
                             <button
                                 key={value}
@@ -239,9 +285,10 @@ export default function Input({
                                     e.preventDefault()
                                     handleRatingClick(value)
                                 }}
-                                className={`w-12 h-12 text-2xl border-2 rounded-full flex items-center justify-center transition-transform hover:scale-110 focus:outline-none ${
-                                    rating === value ? 'bg-yellow-300' : 'bg-transparent'
+                                className={`w-12 h-12 text-2xl border-2 rounded-full flex items-center justify-center transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                                    rating === value ? 'bg-yellow-300 border-yellow-500' : 'bg-transparent border-gray-300'
                                 }`}
+                                type="button"
                             >
                                 {emoji}
                             </button>
@@ -249,12 +296,16 @@ export default function Input({
                     })}
                 </div>
 
-                {error && <p className="text-red-600 text-center">{error}</p>}
+                {error && (
+                    <p className="text-red-600 text-center">
+                        {error}
+                    </p>
+                )}
 
                 <button
                     type="submit"
                     disabled={!isFormValid}
-                    className={`py-3 px-6 font-bold rounded-full transition-transform ${
+                    className={`py-3 px-6 font-bold rounded-full transition-transform focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                         isFormValid
                             ? 'bg-black text-white hover:scale-105 active:scale-95'
                             : 'bg-gray-300 text-gray-600 cursor-not-allowed'
