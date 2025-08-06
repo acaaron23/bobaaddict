@@ -17,6 +17,7 @@ export async function getBobaEntries() {
 
     return entries.map((entry, index) => ({
         id: index + 1,
+        _id: entry._id.toString(),
         shop_name: entry.shop_name,
         boba_name: entry.boba_name,
         price: entry.price,

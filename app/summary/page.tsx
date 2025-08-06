@@ -1,6 +1,7 @@
 import Summary from './summary';
 import { getBobaSummary } from '@/app/actions/getSummary';
 import { getBobaEntries } from '@/app/actions/getBobaEntries';
+import { deleteBobaEntryById } from '@/app/actions/deleteBobaEntry';
 
 export const metadata = {
     title: "Summary",
@@ -9,7 +10,8 @@ export const metadata = {
 export const dynamic = 'force-dynamic';
 
 type BobaEntry = {
-    id: number
+    id: number;
+    _id: string;
     shop_name: string;
     boba_name: string;
     price: number;
@@ -42,7 +44,7 @@ export default async function SummaryPage() {
         console.log('Fetched entries count:', entries.length);
 
     } catch (error) {
-        console.error('Failed to get summary:', error);
+        console.error('Failed to get data:', error);
         summary = {
             total_spent: 0,
             total_visits: 0,
@@ -56,5 +58,10 @@ export default async function SummaryPage() {
 
     const currentMonth = new Date().toLocaleString('default', { month: 'long' });
 
-    return <Summary summary={summary} currentMonth={currentMonth} entries={entries} />;
+    return <Summary
+        summary={summary}
+        currentMonth={currentMonth}
+        entries={entries}
+        onDeleteEntry={deleteBobaEntryById}
+    />;
 }
