@@ -27,7 +27,7 @@ export default async function InputPage() {
                     <p className="text-lg text-gray-600 mb-8">
                         You need to be logged in to add boba entries.
                     </p>
-                    <div className="flex flex-col items-center justify-center text-center w-1/2 mx-auto bg-black text-white p-3 rounded-lg shadow-md">
+                    <div className="flex flex-col items-center justify-center text-center w-1/2 mx-auto bg-black p-3 rounded-lg shadow-md">
                         <LoginForm />
                     </div>
                 </div>
