@@ -175,24 +175,29 @@ export default function Input({
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center relative px-4">
+        <div className="min-h-screen max-h-screen overflow-y-auto flex flex-col items-center justify-center relative px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
             {successMessage && (
-                <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-md text-lg z-50 animate-fadeInOut">
-                    {successMessage}
+                <div className="fixed top-4 left-4 right-4 sm:left-1/2 sm:right-auto sm:transform sm:-translate-x-1/2 sm:w-auto bg-green-500 text-white px-4 sm:px-6 py-3 rounded-lg text-sm sm:text-base lg:text-lg z-50 shadow-lg animate-fadeInOut">
+                    <div className="flex items-center justify-center gap-2">
+                        <span className="text-xl">✅</span>
+                        <span className="font-medium">{successMessage}</span>
+                    </div>
                 </div>
             )}
 
-            <h1 className="text-4xl font-bold text-black text-center mb-4">
-                Enter your boba information
-            </h1>
-            <p className="text-lg text-black text-center mb-8">
-                Please enter the information as accurately as possible!
-            </p>
+            <div className="text-center mb-6 sm:mb-8 max-w-2xl">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-3 sm:mb-4 px-4">
+                    Enter your boba information
+                </h1>
+                <p className="text-base sm:text-lg text-black px-4">
+                    Please enter the information as accurately as possible!
+                </p>
+            </div>
 
             <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-lg shadow-md relative"
+                className="flex flex-col gap-4 sm:gap-5 w-full max-w-sm sm:max-w-md bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow-lg relative"
             >
                 <div className="relative">
                     <input
@@ -202,18 +207,16 @@ export default function Input({
                         onChange={handleShopNameChange}
                         onKeyDown={(e) => handleKeyDown(e, 'shop')}
                         ref={shopInputRef}
-                        className="p-3 text-base border border-gray-300 rounded-md w-full"
+                        className="p-3 sm:p-4 text-base sm:text-lg border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         autoComplete="off"
                     />
                     {showShopSuggestions && filteredShopSuggestions.length > 0 && (
-                        <ul
-                            className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto"
-                        >
+                        <ul className="absolute z-20 w-full bg-white shadow-lg rounded-lg mt-2 max-h-32 sm:max-h-40 overflow-auto border border-gray-200">
                             {filteredShopSuggestions.map((s) => (
                                 <li
                                     key={s}
                                     onClick={() => handleSuggestionClick(s, 'shop')}
-                                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                                    className="p-3 sm:p-4 hover:bg-gray-50 cursor-pointer text-sm sm:text-base border-b border-gray-100 last:border-b-0 active:bg-gray-100"
                                 >
                                     {s}
                                 </li>
@@ -230,18 +233,16 @@ export default function Input({
                         onChange={handleDrinkNameChange}
                         onKeyDown={(e) => handleKeyDown(e, 'drink')}
                         ref={drinkInputRef}
-                        className="p-3 text-base border border-gray-300 rounded-md w-full"
+                        className="p-3 sm:p-4 text-base sm:text-lg border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         autoComplete="off"
                     />
                     {showDrinkSuggestions && filteredDrinkSuggestions.length > 0 && (
-                        <ul
-                            className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1 max-h-40 overflow-auto"
-                        >
+                        <ul className="absolute z-20 w-full bg-white shadow-lg rounded-lg mt-2 max-h-32 sm:max-h-40 overflow-auto border border-gray-200">
                             {filteredDrinkSuggestions.map((d) => (
                                 <li
                                     key={d}
                                     onClick={() => handleSuggestionClick(d, 'drink')}
-                                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                                    className="p-3 sm:p-4 hover:bg-gray-50 cursor-pointer text-sm sm:text-base border-b border-gray-100 last:border-b-0 active:bg-gray-100"
                                 >
                                     {d}
                                 </li>
@@ -251,18 +252,15 @@ export default function Input({
                 </div>
 
                 <div className="relative">
-                  <span
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 pointer-events-none select-none"
-                      aria-hidden="true"
-                  >
-                    $
-                  </span>
+                    <span className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-600 pointer-events-none select-none text-base sm:text-lg font-medium">
+                        $
+                    </span>
                     <input
                         type="text"
                         placeholder="Price"
                         value={price}
                         onChange={handlePriceChange}
-                        className="p-3 pl-7 text-base border border-gray-300 rounded-md w-full"
+                        className="p-3 sm:p-4 pl-8 sm:pl-10 text-base sm:text-lg border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         inputMode="decimal"
                     />
                 </div>
@@ -271,7 +269,7 @@ export default function Input({
                     type="date"
                     value={date}
                     onChange={handleDateChange}
-                    className="p-3 text-base border border-gray-300 rounded-md"
+                    className="p-3 sm:p-4 text-base sm:text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
 
                 <div className="flex justify-around my-4">
@@ -284,7 +282,7 @@ export default function Input({
                                     e.preventDefault()
                                     handleRatingClick(value)
                                 }}
-                                className={`w-12 h-12 text-2xl border-2 rounded-full flex items-center justify-center transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                                className={`w-14 h-14 sm:w-16 sm:h-16 text-3xl sm:text-4xl border-2 rounded-full flex items-center justify-center transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                                     rating === value ? 'bg-yellow-300 border-yellow-500' : 'bg-transparent border-gray-300'
                                 }`}
                                 type="button"
@@ -296,18 +294,23 @@ export default function Input({
                 </div>
 
                 {error && (
-                    <p className="text-red-600 text-center">
-                        {error}
-                    </p>
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4">
+                        <div className="flex items-center gap-2">
+                            <span className="text-red-500 text-lg">⚠️</span>
+                            <p className="text-red-600 text-sm sm:text-base font-medium">
+                                {error}
+                            </p>
+                        </div>
+                    </div>
                 )}
 
                 <button
                     type="submit"
                     disabled={!isFormValid}
-                    className={`py-3 px-6 font-bold rounded-full transition-transform focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    className={`py-3 sm:py-4 px-6 sm:px-8 font-bold text-base sm:text-lg rounded-xl transition-all focus:outline-none focus:ring-3 focus:ring-blue-400 shadow-md ${
                         isFormValid
-                            ? 'bg-black text-white hover:scale-105 active:scale-95'
-                            : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                            ? 'bg-black text-white hover:bg-gray-800 hover:scale-105 active:scale-95 hover:shadow-lg'
+                            : 'bg-gray-300 text-gray-600 cursor-not-allowed shadow-sm'
                     }`}
                 >
                     Add Boba
