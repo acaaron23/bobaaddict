@@ -27,7 +27,7 @@ export default function Home() {
             id: 2,
             title: "Begin Entering Boba",
             description: "Add your drinks easily",
-            content: "Enter the name of the store, drink, price, date, and your rating. Then, simply click submit!",
+            content: "Enter the name of the store, drink, price, date, and your rating. Then, simply click Add Boba!",
         },
         {
             id: 3,
@@ -45,50 +45,40 @@ export default function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            {/* Hero Section */}
-            <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12 items-center justify-center w-full max-w-7xl mx-auto">
-                    <div className="flex flex-col justify-center w-full lg:w-1/2 text-center lg:text-left order-2 lg:order-1">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-2 leading-tight">
-                            Welcome to
-                        </h1>
-                        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl font-bold mb-4 sm:mb-6 text-[#b3886c] leading-tight">
-                            Boba Addict!
-                        </h2>
-                        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-black leading-relaxed mb-4 sm:mb-6">
-                            Journal your boba addiction, <br className="hidden sm:block"/> one card swipe at a time!
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                <div className="flex flex-col md:flex-row gap-6 items-center justify-center w-full mx-auto">
+                    <div className="flex flex-col justify-center w-full md:w-1/2 text-center md:text-left px-6">
+                        <h1 className="text-5xl md:text-7xl font-bold mb-2">Welcome to</h1>
+                        <h2 className="text-6xl md:text-9xl font-bold mb-4 text-[#b3886c]">Boba Addict!</h2>
+                        <p className="text-3xl md:text-4xl font-semibold text-black">
+                            Journal your boba addiction, <br/> one card swipe at a time!
                         </p>
                         <button
                             onClick={scrollToExplanation}
-                            className="w-fit text-base sm:text-lg lg:text-xl px-6 sm:px-8 py-3 sm:py-4 bg-black text-white font-bold rounded-full transition-transform hover:scale-105 active:scale-95 self-center lg:self-start shadow-lg hover:shadow-xl"
+                            className="w-fit text-xl px-4 py-4 bg-black text-white font-bold rounded-full transition-transform hover:scale-105 active:scale-95 mt-4 self-center md:self-start"
                         >
                             Learn more about BobaAddict
                         </button>
                     </div>
 
-                    <div className="w-48 sm:w-56 md:w-64 lg:w-1/4 xl:w-1/3 flex items-center justify-center order-1 lg:order-2 mb-6 lg:mb-0">
-                        <div className="relative">
-                            <Image
-                                src="/boba.png"
-                                alt="BobaAddict logo"
-                                width={250}
-                                height={250}
-                                className="w-full h-auto drop-shadow-lg hover:drop-shadow-xl transition-all duration-300 transform hover:scale-105"
-                                priority
-                            />
-                        </div>
+                    <div className="w-1/2 md:w-1/4 flex items-center justify-center px-4">
+                        <Image
+                            src="/boba.png"
+                            alt="BobaAddict logo"
+                            width={250}
+                            height={250}
+                            className="w-full h-auto drop-shadow-lg hover:drop-shadow-xl transition-all duration-300 transform hover:scale-105"
+                        />
                     </div>
                 </div>
             </div>
 
             <div
                 ref={explanationRef}
-                className="min-h-screen w-full flex flex-col items-center justify-center py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8"
+                className="min-h-screen w-full flex flex-col items-center justify-center mt-20 px-4"
             >
-                <div className="w-full max-w-7xl mx-auto">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 sm:mb-12 lg:mb-16 text-[#7B3F00] leading-tight">
-                        How BobaAddict Works
-                    </h2>
+                <div className="mt-20">
+                    <h2 className="text-4xl font-bold text-center mb-12">How BobaAddict Works</h2>
                     <ZigzagSteps steps={bobaSteps} />
                 </div>
             </div>

@@ -309,7 +309,7 @@ export default function Input({
                     disabled={!isFormValid}
                     className={`py-3 sm:py-4 px-6 sm:px-8 font-bold text-base sm:text-lg rounded-xl transition-all focus:outline-none focus:ring-3 focus:ring-blue-400 shadow-md ${
                         isFormValid
-                            ? 'bg-black text-white hover:bg-gray-800 hover:scale-105 active:scale-95 hover:shadow-lg'
+                            ? 'bg-black text-white hover:bg-gray-950 hover:scale-105 active:scale-95 hover:shadow-lg'
                             : 'bg-gray-300 text-gray-600 cursor-not-allowed shadow-sm'
                     }`}
                 >
