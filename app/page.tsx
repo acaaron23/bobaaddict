@@ -27,7 +27,7 @@ export default function Home() {
             id: 2,
             title: "Begin Entering Boba",
             description: "Add your drinks easily",
-            content: "Enter the name of the store, drink, price, date, and your rating. Then, simply click Add Boba!",
+            content: "Enter the name of the store, drink, price, date, and your rating. Then, simply click Add Boba`!",
         },
         {
             id: 3,

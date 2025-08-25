@@ -194,7 +194,7 @@ export default function Summary({
                                     entries.map((entry) => (
                                         <tr key={entry.id} className="hover:bg-gray-50">
                                             <td className="px-4 py-4 whitespace-nowrap text-m text-black">
-                                                {new Date(entry.date).toLocaleDateString()}
+                                                {new Date(entry.date).toLocaleDateString("en-US", { timeZone: "UTC" })}
                                             </td>
                                             <td className="px-4 py-4 whitespace-nowrap text-m font-bold text-black">
                                                 {entry.shop_name}
